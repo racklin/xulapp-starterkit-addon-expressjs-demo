@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+
+<?xml-stylesheet href="chrome://hello-expressjs/content/style.css" type="text/css"?>
+<overlay id="overlayHelloExpressJs" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+
+  <script type="application/x-javascript"><![CDATA[
+
+      (function() {
+
+          var process = null;
+
+          this.startHelloExpressJs = function() {
+
+              if (process && process.isRunning) {
+                  var confirmStop = confirm('HelloWorld expressjs is Running.\nAre you want to stop it?')
+                  if (confirmStop) {
+                      process.kill();
+                      process = null;
+                      document.getElementById('imgHelloExpressJs').setAttribute('mode', 'stop');
+                  }
+              }else {
+                  var confirmStart = confirm('Start HelloWorld expressjs on 127.0.0.1:3000');
+                  if (confirmStart) {
+                      // convert chrome url to real os path
+                      var path = XULApp.GREUtils.File.chromeToPath('chrome://hello-expressjs-app/content/app.js');
+
+                      // running it
+                      process = XULApp.NodeJS.createProcess();
+                      process.runAsync([path], 1);
+
+                      document.getElementById('imgHelloExpressJs').setAttribute('mode', 'running');
+
+                  }
+              }
+          }
+
+      })(this);
+  ]]>
+  </script>
+
+  <statusbar id="status-bar">
+      <statusbarpanel id="statusbarHelloExpressJs">
+        <image id="imgHelloExpressJs" mode="stop" onclick="startHelloExpressJs();" insertafter="statusbar-progresspanel" />
+      </statusbarpanel>
+  </statusbar>
+
+</overlay>

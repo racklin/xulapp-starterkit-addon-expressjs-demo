@@ -1,0 +1,5 @@
+content hello-expressjs chrome/content/
+content hello-expressjs-app app/
+
+overlay chrome://xulapp/content/xulapp.xul chrome://hello-expressjs/content/overlay.xul
+
